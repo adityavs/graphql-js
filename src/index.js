@@ -205,6 +205,7 @@ export type {
   NameNode,
   DocumentNode,
   DefinitionNode,
+  ExecutableDefinitionNode,
   OperationDefinitionNode,
   OperationTypeNode,
   VariableDefinitionNode,
@@ -362,6 +363,8 @@ export {
   doTypesOverlap,
   // Asserts a string is a valid GraphQL name.
   assertValidName,
+  // Determine if a string is a valid GraphQL name.
+  isValidNameError,
   // Compares two GraphQLSchemas and detects breaking changes.
   findBreakingChanges,
   findDangerousChanges,

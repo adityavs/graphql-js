@@ -754,18 +754,6 @@ describe('Schema Builder', () => {
     expect(schema.getSubscriptionType().name).to.equal('Subscription');
   });
 
-  it('Default root operation type names', () => {
-    const schema = buildSchema(dedent`
-      type Query { str: String }
-      type Mutation { str: String }
-      type Subscription { str: String }
-    `);
-
-    expect(schema.getQueryType().name).to.equal('Query');
-    expect(schema.getMutationType().name).to.equal('Mutation');
-    expect(schema.getSubscriptionType().name).to.equal('Subscription');
-  });
-
   it('can build invalid schema', () => {
     const schema = buildSchema(dedent`
       # Invalid schema, because it is missing query root type
@@ -775,6 +763,17 @@ describe('Schema Builder', () => {
     `);
     const errors = validateSchema(schema);
     expect(errors.length).to.be.above(0);
+  });
+
+  it('Accepts legacy names', () => {
+    const doc = parse(dedent`
+      type Query {
+        __badName: String
+      }
+    `);
+    const schema = buildASTSchema(doc, { allowedLegacyNames: ['__badName'] });
+    const errors = validateSchema(schema);
+    expect(errors.length).to.equal(0);
   });
 });
 
